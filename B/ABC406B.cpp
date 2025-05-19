@@ -20,16 +20,20 @@ int main()
     {
         m *= 10;
     }
+    m--;
 
     long long ans = 1;
     for (int i = 0; i < N; i++)
     {
         long long a;
         cin >> a;
-        ans *= a;
-        if (ans >= m)
+        if (ans > (m / a))
         {
             ans = 1;
+        }
+        else
+        {
+            ans *= a;
         }
     }
 
