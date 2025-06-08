@@ -32,7 +32,8 @@ int main() {
         if (sum > X) {
             break;
         }
-        sum += v.at(i);
+        sum += v.a
+        t(i);
         ans++;
     }
     
