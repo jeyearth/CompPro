@@ -11,23 +11,17 @@ using namespace std;
 // #define PRINT_VARIABLE(var) std::cout << #var << " : " << var << std::endl
 
 int main() {
-    int love_num = 753;
-    int target_length = 3;
-
     string s;
     cin >> s;
-    int input_num = stoi(s);
 
-    int ans = INT_MAX;
-    for (int i = 0; i <= s.length() - target_length; i++)
+    int love_num = 753;
+    int ans = __INT_MAX__;
+    for (int i = 0; i < s.length(); i++)
     {
-        string sub = s.substr(i, target_length);
-        int target_num = stoi(sub);
-        int diff = abs(love_num - target_num);
-
-        ans = min(ans, diff);
+        string substr = s.substr(i, 3);
+        int num = stoi(substr);
+        ans = min(ans, abs(num - love_num));
     }
-
     cout << ans << endl;
     return 0;
 }
