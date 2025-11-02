@@ -10,57 +10,54 @@ using namespace std;
 
 // #define PRINT_VARIABLE(var) std::cout << #var << " : " << var << std::endl
 
-bool isAns(int a_count, int b_count, int a, int b) {
-    cout << "----" << endl;
-    cout << "a_count: " << a_count << endl;
-    cout << "b_count: " << b_count << endl;
-    return a_count >= a && b_count < b;
-}
-
 int main() {
     int n, a, b;
     string s;
     cin >> n >> a >> b >> s;
 
-    int ans = 0;
-    int l = 0;
-    int r = 0;
-    int a_count = 0;
-    int b_count = 0;
-    while (r < a) {
-        if (s.at(r) == 'a') {
-            a_count++;
+    vector<int> sa(n + 1), sb(n + 1);
+    for (int i = 0; i < n; i++)
+    {
+        if (s.at(i) == 'a') {
+            sa.at(i + 1) = 1;
         } else {
-            b_count++;
+            sb.at(i + 1) = 1;
         }
-        r++;
+    }
+    for (int i = 0; i < n; i++)
+    {
+        sa.at(i + 1) += sa.at(i);
+        sb.at(i + 1) += sb.at(i);
     }
 
-    while (r < n) {
-        if (s.at(r) == 'a') {
-            a_count++;
-        } else {
-            b_count++;
-        }
-        if (isAns(a_count, b_count, a, b)) {
-            ans++;
-        }
-        cout << "l: " << l << ", r: " << r << endl;
-        cout << "Current ans: " << ans << endl;
-        if (l == r) {
-            r++;
-        } else if (b_count >= b) {
-            if (s.at(l) == 'a') {
-                a_count--;
-            } else {
-                b_count--;
+    long long ans = 0;
+    for (int l = 0; l < n; l++) {
+        int ra, rb;
+        {
+            int wa = l, ac = n + 1;
+            while (ac - wa > 1) {
+                int wj = (wa + ac) / 2;
+                if (sa.at(wj) - sa.at(l) >= a) {
+                    ac = wj;
+                } else {
+                    wa = wj;
+                }
             }
-            l++;
-            cout << "L down" << endl;
-            cout << "After L down, a_count: " << a_count << ", b_count: " << b_count << endl;
-        } else {
-            r++;
+            ra = ac;
         }
+        {
+            int ac = l, wa = n + 1;
+            while (wa - ac > 1) {
+                int wj = (wa + ac) / 2;
+                if (sb.at(wj) - sb.at(l) < b) {
+                    ac = wj;
+                } else {
+                    wa = wj;
+                }
+            }
+            rb = wa;
+        }
+        ans += max(0, rb - ra);
     }
 
     cout << ans << endl;
